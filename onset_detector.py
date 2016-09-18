@@ -13,57 +13,88 @@ import librosa
 import argparse
 import time 
 import vlc
+import os
 
+def query_rhyme(query, mylist, phrase_array):
+    set1 = query(mylist[0], mylist[1])
+    set2 = query(mylist[2], mylist[3])
 
-def onset_detect(input_file, output_csv):
-    '''Onset detection function
+    i, t = 0, 0
 
-    :parameters:
-      - input_file : str
-          Path to input audio file (wav, mp3, m4a, flac, etc.)
+    for index in mylist[4]:
+        if (index):
+            phrase_array.append(set1[i])
+            i+=1
+        else:
+            phrase_array.append(set2[t])
+            t+=1
+    return
 
-      - output_file : str
-          Path to save onset timestamps as a CSV file
-    '''
-    p = vlc.MediaPlayer(input_file)
+def onset_detect(input_file):
 
-    # 1. load the wav file and resample to 22.050 KHz
-   # print('Loading ', input_file)
     y, sr = librosa.load(input_file, sr=22050)
 
-    # Use a default hop size of 512 frames @ 22KHz ~= 23ms
-    hop_length = 512
+    p = vlc.MediaPlayer(input_file)
 
-    # This is the window length used by default in stft
-    n_fft = 2048
 
-    # 2. run onset detection
-#    print('Detecting onsets...')
-    onsets = librosa.onset.onset_detect(y=y,
-                                        sr=sr,
+    hop_length =512
+
+    n_fft =2048
+    onsets = librosa.onset.onset_detect(y=y,sr=sr,
                                         hop_length=hop_length)
 
-#    print("Found {:d} onsets.".format(onsets.shape[0]))
-
-    # 3. save outputx
-    # 'beats' will contain the frame numbers of beat events.
 
     onset_times = librosa.frames_to_time(onsets,
                                          sr=sr,
                                          hop_length=hop_length,
                                          n_fft=n_fft)
 
-    i, t = 1, 0 
-    start = time.clock()
+    p.play()
+    phrase_array =[]
+
+    i, t, k = 0, 0, 0
+
+    rhyme1 = [1, 1, 1, 0, 0]
+    rhyme2 = [1, 1, 0, 0, 0]
+    chorus1 = [False, 3, True, 2, rhyme1]
+    chorus2 = [False, 2, False, 3, rhyme2]
+
+
+    query_rhyme(query, chorus1, phrase_array)
+
+    for arrs in phrase_array:
+        print (arrs)
+
+    arras = ["The quick brown fox", "jumps over the", "lazy dog", "Niggas in Paris", "ball so hard motherfuckers want to find me", "i j k l m ", "Whos that hoe", "Where are you bitch", "I am scared dont test me", "You disgust me", "let me in", "I shop at Amazon marketplace", "please try harder", "make me"]
+
+    
     delta = []
+
+    for k in range(1, len(onset_times)):
+        delta.append(onset_times[i] - onset_times[k-1])
+
+
+    start = time.clock()
+
+
+    while (i<len(onset_times)):
+        if ((time.clock()-start) >= onset_times[i]):
+            i+=4
+            print('beat', i)
+            print (str(abs(100/int(delta[i]))+120))
+            os.system("espeak " + "'" + arras[t] + "' " + "-s" + str(abs(100/int(delta[i]))+120))
+            t+=1
+
+
+
+
+
     delta1 = []
     delta2 = []
     delta3 = []
     delta4 = []
     delta5 = []
 
-    for i in range (1, len(onset_times)):
-        delta.append(onset_times[i] - onset_times[i-1])
 
     for i in range (0, len(delta)):
         if (i<4): 
@@ -113,19 +144,6 @@ def onset_detect(input_file, output_csv):
             delta5.append(delta4[i] + delta4[i-1] + delta4[i-2] + delta4[i-3] + delta4[i-4])   
 
 
-
-
-
-
-    librosa.output.times_csv(output_csv, onset_times)
-
-
-
-    for aslt in delta5:
-        print (aslt)
-
-
-
 def process_arguments(args):
     '''Argparse function to get the program parameters'''
 
@@ -136,10 +154,6 @@ def process_arguments(args):
                         action='store',
                         help='path to the input file (wav, mp3, etc)')
 
-    parser.add_argument('output_file',
-                        action='store',
-                        help='path to the output file (csv of onset times)')
-
     return vars(parser.parse_args(args))
 
 
@@ -148,4 +162,4 @@ if __name__ == '__main__':
     parameters = process_arguments(sys.argv[1:])
 
     # Run the beat tracker
-    onset_detect(parameters['input_file'], parameters['output_file'])
+    onset_detect(parameters['input_file'])
