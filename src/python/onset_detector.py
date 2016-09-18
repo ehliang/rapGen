@@ -57,7 +57,7 @@ def onset_detect(input_file):
 
     y, sr = librosa.load(input_file, sr=22050)
 
-    p = vlc.MediaPlayer(input_file)
+    #p = vlc.MediaPlayer(input_file)
 
 
     hop_length =512
@@ -72,7 +72,7 @@ def onset_detect(input_file):
                                          hop_length=hop_length,
                                          n_fft=n_fft)
 
-    p.play()
+    #p.play()
     phrase_array =[]
 
     i, t, k = 0, 0, 0
@@ -88,7 +88,7 @@ def onset_detect(input_file):
 
 
     chorus1 = [False, 3, True, 2, c_rhyme1]
-    chorus1 = [False, 3, False, 2, c_rhyme2]
+    chorus1 = [False, 2, False, 3, c_rhyme2]
     chorus2 = [False, 2, False, 3, c_rhyme2]
 
 
