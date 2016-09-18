@@ -1,0 +1,23 @@
+{
+  "name": "hey-kanye",
+  "version": "1.0.0",
+  "description": "Generating Rap Songs with Predictive Modelling",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ehliang/rapGen.git"
+  },
+  "author": "Ankai Jie, Ethan Liang, Neil Liu",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ehliang/rapGen/issues"
+  },
+  "homepage": "https://github.com/ehliang/rapGen#readme",
+  "dependencies": {
+    "express": "^4.14.0",
+    "path": "^0.12.7"
+  }
+}
