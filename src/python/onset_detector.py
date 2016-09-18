@@ -13,8 +13,11 @@ import librosa
 import argparse
 import time 
 import vlc
+from espeak import ESpeak
 import os
+import wave
 from set_parse_tree import MarkovModel as mm
+from pydub import AudioSegment
 
 def query_rhyme(query, mylist, phrase_array):
     set1 = query(mylist[1], mylist[0])
@@ -34,6 +37,22 @@ def query_rhyme(query, mylist, phrase_array):
 def onset_detect(input_file):
 
     rhymegen = mm()
+
+    es = ESpeak()
+
+    if os.path.isfile('./overlaid.wav'):
+        os.remove('./overlaid.wav')
+
+    file_list = os.listdir("./wav")
+
+    file_list.sort(key=float)
+
+    for file in file_list:
+        os.remove('./wav/'+ file)
+
+    delta = []
+
+    
 
     y, sr = librosa.load(input_file, sr=22050)
 
@@ -57,37 +76,68 @@ def onset_detect(input_file):
 
     i, t, k = 0, 0, 0
 
-    rhyme1 = [1, 1, 1, 0, 0]
-    rhyme2 = [1, 1, 0, 0, 0]
-    chorus1 = [False, 3, True, 2, rhyme1]
-    chorus2 = [False, 2, False, 3, rhyme2]
+    c_rhyme1 = [1, 1, 1, 0, 0]
+    c_rhyme2 = [1, 1, 0, 0, 0]
+    c_rhyme3 = [1, 0, 1, 0, 1]
+    c_rhyme4 = [1, 1, 0, 0, 1]
+
+    v_rhyme1 = [1, 1, 0, 0]
+    v_rhyme2 = [1, 0, 1, 0]
+    v_rhyme3 = [1, 0, 0, 1]
+
+
+    chorus1 = [False, 3, True, 2, c_rhyme1]
+    chorus2 = [False, 2, False, 3, c_rhyme2]
+    
+
 
 
     query_rhyme(rhymegen.generaterhymes, chorus1, phrase_array)
+    query_rhyme(rhymegen.generaterhymes, chorus2, phrase_array)
 
     for arrs in phrase_array:
         print (arrs)
 
-    arras = ["The quick brown fox", "jumps over the", "lazy dog", "Niggas in Paris", "ball so hard motherfuckers want to find me", "i j k l m ", "Whos that hoe", "Where are you bitch", "I am scared dont test me", "You disgust me", "let me in", "I shop at Amazon marketplace", "please try harder", "make me"]
-
+    arras = ["The quick brown fox", "jumps over the", "lazy dog", "Niggas in Paris", "ball so hard motherfuckers want to find me", "i j k l m ", "Whos that hoe"]
     
-    delta = []
+
 
     for k in range(1, len(onset_times)):
-        delta.append(onset_times[i] - onset_times[k-1])
+        delta.append(onset_times[k] - onset_times[k-1])
 
 
     start = time.clock()
 
+    n=0
 
-    while (i<len(onset_times)):
-        if ((time.clock()-start) >= onset_times[i]):
-            i+=4
-            print('beat', i)
-            print (str(abs(100/int(delta[i]))+120))
-            os.system("espeak " + "'" + arras[t] + "' " + "-s" + str(abs(100/int(delta[i]))+120))
-            t+=1
 
+    while (n<len(onset_times)):
+        if ((time.clock()-start) >= onset_times[n]):
+            print('beat', n)
+            #es.speed=float(abs(100/int(delta[i]))+120)
+            if t<len(phrase_array):
+                es.args['speed'][1]=int(abs(1/delta[n])+150)
+                es.save(phrase_array[t],'./wav/'+(str(onset_times[n])))
+                #os.system("espeak " + "'" + arras[t] + "' " + "-s" + str(int(abs(1/delta[n])+140)))
+                n+=5 
+                t+=1
+            else:
+                n=3500000
+
+
+
+
+
+    sound1 = AudioSegment.from_wav('./rap.wav')
+
+
+
+    for file in file_list:
+            the_wave = AudioSegment.from_wav('./wav/'+ file)
+            sound_with_wave = sound1.overlay(the_wave, position=int(float(file)*1000))
+            print (float(file)*1000)
+            sound_with_wave.export('overlaid.wav', format='wav')
+            sound1 = AudioSegment.from_wav('./overlaid.wav')
 
 
 
