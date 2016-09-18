@@ -3,9 +3,9 @@
 
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" type="text/css" href="bower_lib/bootstrap-css/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-    <link rel="stylesheet" type="text/css" href="bower_lib/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="styles.css">
     <title>Hey Kanye</title>
 </head>
@@ -26,15 +26,20 @@
                 <p class="header3">Using machine learning technology through Microsoft Azure and Python, Hey Kanye is able to take any set of words and produce a fire verse that matches any beat.</p>
             </div>
             <div class="col-sm-4 col-sm-offset-4 music">
-                <button class="btn btn-default btn-lg"><span> <i class="fa fa-play-circle"></i></span> Generate a New Song </button>
+                <button class="btn btn-default btn-lg generate"><span> <i class="fa fa-play-circle"></i></span> Generate a New Song </button>
                 <div class="ticker">
                     <div id="slider"></div>
+                </div>
+                <div class="playpause">
+                    <button type="button" id="button_play" class="btn">
+                        <i class="fa fa-play"></i>
+                    </button>
                 </div>
             </div>
         </div>
     </div>
-    <script src="bower_lib/jquery/dist/jquery.min.js"></script>
-    <script src="bower_lib/jquery-ui/jquery-ui.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
     <script src="index.js"></script>
 </body>
 
