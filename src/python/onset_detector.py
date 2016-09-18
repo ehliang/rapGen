@@ -18,7 +18,7 @@ import os
 import wave
 import subprocess
 from textstat.textstat import textstat
-#from set_parse_tree import MarkovModel as mm
+from set_parse_tree import MarkovModel as mm
 from pydub import AudioSegment
 
 def query_rhyme(query, mylist, phrase_array):
@@ -101,16 +101,23 @@ def onset_detect(input_file):
     verse3 = [False, 2, False, 2, v_rhyme3]
 
 
-    #query_rhyme(rhymegen.generate_rhymes, verse1, phrase_array)
-    #query_rhyme(rhymegen.generate_rhymes, verse2, phrase_array)
+    query_rhyme(rhymegen.generate_rhymes, verse1, phrase_array)
+    query_rhyme(rhymegen.generate_rhymes, verse2, phrase_array)
 
-    #chorusA = query_rhyme(rhymegen.generate_rhymes, chorus1, phrase_array)
+    chorusA = query_rhyme(rhymegen.generate_rhymes, chorus1, phrase_array)
 
-    #query_rhyme(rhymegen.generate_rhymes, verse1, phrase_array)
+    query_rhyme(rhymegen.generate_rhymes, verse1, phrase_array)
+    query_rhyme(rhymegen.generate_rhymes, verse1, phrase_array)
 
-    #phrase_array += chorusA
+    phrase_array += chorusA
 
-    #query_rhyme(rhymegen.generate_rhymes, verse2, phrase_array)
+    query_rhyme(rhymegen.generate_rhymes, verse2, phrase_array)
+    query_rhyme(rhymegen.generate_rhymes, verse2, phrase_array)
+
+    phrase_array += chorusA
+
+    query_rhyme(rhymegen.generate_rhymes, verse2, phrase_array)
+    query_rhyme(rhymegen.generate_rhymes, verse2, phrase_array)
 
 
 
@@ -118,8 +125,7 @@ def onset_detect(input_file):
 
 
 
-
-    phrase_array = ["The quick brown fox", "jumps over the", "lazy dog", "Niggas in Paris", "ball so hard motherfuckers want to find me", "i j k l m ", "Whos that hoe"]
+    #phrase_array = ["The quick brown fox", "jumps over the", "lazy dog", "Niggas in Paris", "ball so hard motherfuckers want to find me", "i j k l m ", "Whos that hoe"]
     
     for arrs in phrase_array:
         print (arrs)
