@@ -92,8 +92,8 @@ def onset_detect(input_file):
 
 
 
-    query_rhyme(rhymegen.generaterhymes, chorus1, phrase_array)
-    query_rhyme(rhymegen.generaterhymes, chorus2, phrase_array)
+    query_rhyme(rhymegen.generate_rhymes, chorus1, phrase_array)
+    query_rhyme(rhymegen.generate_rhymes, chorus2, phrase_array)
 
     for arrs in phrase_array:
         print (arrs)
@@ -117,7 +117,7 @@ def onset_detect(input_file):
             #es.speed=float(abs(100/int(delta[i]))+120)
             if t<len(phrase_array):
                 es.args['speed'][1]=int(abs(1/delta[n])+150)
-                es.save(phrase_array[t],'./wav/'+(str(onset_times[n])))
+                es.save(phrase_array[t],'./wav/'+ str(onset_times[n]))
                 #os.system("espeak " + "'" + arras[t] + "' " + "-s" + str(int(abs(1/delta[n])+140)))
                 n+=5 
                 t+=1
