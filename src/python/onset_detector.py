@@ -137,10 +137,10 @@ def onset_detect(input_file):
             print('beat', n)
             #es.speed=float(abs(100/int(delta[i]))+120)
             if t<len(phrase_array):
-                es.args['speed'][1]=int(abs(1/delta[n])*7+190)
+                es.args['speed'][1]=int(abs(1/delta[n])*7+140)
                 es.save(phrase_array[t],'./wav/'+(str(onset_times[n])))
                 #es.say(phrase_array[t])
-                n+=(int(textstat.syllable_count(phrase_array[t])))
+                n+=(int(textstat.syllable_count(phrase_array[t]))+4)
                 time.sleep(2)
                 #os.system("espeak " + "'" + arras[t] + "' " + "-s" + str(int(abs(1/delta[n])+140))) 
                 t+=1
