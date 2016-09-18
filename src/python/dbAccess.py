@@ -137,7 +137,6 @@ def getLongsFromWord(word):
 
 def getWordAttributes(word):
 	wordq = '\'' + word + '\''
-	print('SELECT id, word, syllables, postag, frequency from RapData.words where word=' + wordq)
 	cursor.execute('SELECT id, word, syllables, postag, frequency from RapData.words where word=' + wordq)
 	row = cursor.fetchone()
 	if row:
