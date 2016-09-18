@@ -26,14 +26,17 @@ def query_rhyme(query, mylist, phrase_array):
 
     i, t = 0, 0
 
+    line =[]
+
     for index in mylist[4]:
         if (index):
-            phrase_array.append(set1[i])
+            line.append(set1[i])
             i+=1
         else:
-            phrase_array.append(set2[t])
+            line.append(set2[t])
             t+=1
-    return
+    phrase_array += line
+    return line
 
 def onset_detect(input_file):
 
@@ -92,16 +95,24 @@ def onset_detect(input_file):
     chorus2 = [False, 2, False, 3, c_rhyme2]
 
 
-    
+    verse1 = [False, 2, False, 2, v_rhyme1]
+    verse2 = [False, 2, False, 2, v_rhyme2]
+    verse3 = [False, 2, False, 2, v_rhyme3]
 
 
+    query_rhyme(rhymegen.generate_rhymes, verse1, phrase_array)
+    query_rhyme(rhymegen.generate_rhymes, verse2, phrase_array)
 
-    query_rhyme(rhymegen.generate_rhymes, chorus1, phrase_array)
-    query_rhyme(rhymegen.generate_rhymes, chorus2, phrase_array)
+    chorusA = query_rhyme(rhymegen.generate_rhymes, chorus1, phrase_array)
+
+    query_rhyme(rhymegen.generate_rhymes, verse1, phrase_array)
+
+    phrase_array += chorusA
+
+    query_rhyme(rhymegen.generate_rhymes, verse2, phrase_array)
 
 
-
-    #phrase_array = ["The quick brown fox", "jumps over the", "lazy dog", "Niggas in Paris", "ball so hard motherfuckers want to find me", "i j k l m ", "Whos that hoe"]
+    phrase_array = ["The quick brown fox", "jumps over the", "lazy dog", "Niggas in Paris", "ball so hard motherfuckers want to find me", "i j k l m ", "Whos that hoe"]
     
     for arrs in phrase_array:
         print (arrs)
@@ -122,7 +133,7 @@ def onset_detect(input_file):
             if t<len(phrase_array):
                 es.args['speed'][1]=int(abs(1/delta[n])*7+190)
                 es.save(phrase_array[t],'./wav/'+(str(onset_times[n])))
-                es.say(phrase_array[t])
+                #es.say(phrase_array[t])
                 n+=(int(textstat.syllable_count(phrase_array[t])))
                 time.sleep(2)
                 #os.system("espeak " + "'" + arras[t] + "' " + "-s" + str(int(abs(1/delta[n])+140))) 
