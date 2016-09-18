@@ -14,10 +14,11 @@ import argparse
 import time 
 import vlc
 import os
+from set_parse_tree import MarkovModel as mm
 
 def query_rhyme(query, mylist, phrase_array):
-    set1 = query(mylist[0], mylist[1])
-    set2 = query(mylist[2], mylist[3])
+    set1 = query(mylist[1], mylist[0])
+    set2 = query(mylist[3], mylist[2])
 
     i, t = 0, 0
 
@@ -31,6 +32,8 @@ def query_rhyme(query, mylist, phrase_array):
     return
 
 def onset_detect(input_file):
+
+    rhymegen = mm()
 
     y, sr = librosa.load(input_file, sr=22050)
 
@@ -60,7 +63,7 @@ def onset_detect(input_file):
     chorus2 = [False, 2, False, 3, rhyme2]
 
 
-    query_rhyme(query, chorus1, phrase_array)
+    query_rhyme(rhymegen.generaterhymes, chorus1, phrase_array)
 
     for arrs in phrase_array:
         print (arrs)
