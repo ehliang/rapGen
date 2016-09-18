@@ -217,6 +217,12 @@ def onset_detect(input_file):
             delta5.append(delta4[i] + delta4[i-1] + delta4[i-2] + delta4[i-3] + delta4[i-4])   
 
 
+    wav = './overlaid.wav'
+    cmd = 'lame --preset insane %s' % wav
+    subprocess.call(cmd, shell=True)
+    return 0
+
+
 def process_arguments(args):
     '''Argparse function to get the program parameters'''
 
