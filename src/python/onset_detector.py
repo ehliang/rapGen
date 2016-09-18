@@ -131,7 +131,7 @@ def onset_detect(input_file):
 
 
 
-
+    time.sleep(5)
 
     sound1 = AudioSegment.from_wav('./rap.wav')
 
