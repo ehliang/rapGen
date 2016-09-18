@@ -124,14 +124,11 @@ def onset_detect(input_file):
                 es.save(phrase_array[t],'./wav/'+(str(onset_times[n])))
                 es.say(phrase_array[t])
                 n+=(int(textstat.syllable_count(phrase_array[t])))
+                time.sleep(2)
                 #os.system("espeak " + "'" + arras[t] + "' " + "-s" + str(int(abs(1/delta[n])+140))) 
                 t+=1
             else:
                 n=3500000
-
-
-
-    time.sleep(5)
 
     sound1 = AudioSegment.from_wav('./rap.wav')
 
