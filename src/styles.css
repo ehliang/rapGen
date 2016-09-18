@@ -30,6 +30,10 @@ div .kanye-half {
     line-height: 64px;
 }
 
+.playpause{
+    padding-top: 15px;
+}
+
 .vertical-align {
     position: relative;
     padding-top: 220px;

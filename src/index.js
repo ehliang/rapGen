@@ -21,14 +21,32 @@ var timer;
 var source;
 var reqData;
 var playing = false;
+var first = true;
 
-$('button').click(function(event) {
+$('.generate').click(function(event) {
+    if (first) {
+        loadSound(0);
+        playing = true;
+        first = false;
+    } else if (playing) {
+        source.stop();
+        ticker.slider('option', 'value', 0);
+        clearInterval(timer);
+        loadSound(0);
+    } else {
+        clearInterval(timer);
+        ticker.slider('option', 'value', 0);
+        loadSound(0);
+    }
+});
+
+$('#button_play').click(function(event) {
     if (playing) {
         source.stop();
         clearInterval(timer);
     } else {
         var value = ticker.slider("option", "value");
-        loadSound(value);
+        process(reqData, value);
     }
 
     playing = !playing;
@@ -46,7 +64,7 @@ function tickSlider() {
 
 function loadSound(startTime) {
     var request = new XMLHttpRequest();
-    request.open("GET", "http://localhost:9000/music", true);
+    request.open("GET", "/music", true);
     request.responseType = "arraybuffer";
 
     request.onload = function() {
