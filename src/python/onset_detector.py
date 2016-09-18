@@ -112,7 +112,13 @@ def onset_detect(input_file):
     query_rhyme(rhymegen.generate_rhymes, verse2, phrase_array)
 
 
-    phrase_array = ["The quick brown fox", "jumps over the", "lazy dog", "Niggas in Paris", "ball so hard motherfuckers want to find me", "i j k l m ", "Whos that hoe"]
+
+
+
+
+
+
+    #phrase_array = ["The quick brown fox", "jumps over the", "lazy dog", "Niggas in Paris", "ball so hard motherfuckers want to find me", "i j k l m ", "Whos that hoe"]
     
     for arrs in phrase_array:
         print (arrs)
