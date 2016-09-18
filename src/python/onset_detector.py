@@ -49,7 +49,7 @@ def onset_detect(input_file):
                                          hop_length=hop_length,
                                          n_fft=n_fft)
 
-    p.play()
+    #p.play()
     phrase_array =[]
 
     i, t, k = 0, 0, 0
