@@ -23,8 +23,14 @@ var reqData;
 var playing = false;
 
 $('button').click(function(event) {
-	var value = ticker.slider("option", "value");
-    loadSound(value);
+    if (playing) {
+        source.stop();
+        clearInterval(timer);
+    } else {
+        var value = ticker.slider("option", "value");
+        loadSound(value);
+    }
+
     playing = !playing;
 });
 
