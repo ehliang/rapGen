@@ -38,6 +38,7 @@ class Requests():
 		headers['Content-Type'] = 'application/json'
 		resp = requests.post(url, params = params, headers = headers, data = json.dumps(data))
 		resp_dict = json.loads(resp.text)
+		if "results" not in resp_dict: return string
 		max_prob = max([x["probability"] for x in resp_dict["results"]])
 		for i, word in enumerate(resp_dict["results"]):
 			if max_prob == word["probability"]:
