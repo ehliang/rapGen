@@ -16,6 +16,7 @@ import vlc
 from espeak import ESpeak
 import os
 import wave
+from textstat.textstat import textstat
 from set_parse_tree import MarkovModel as mm
 from pydub import AudioSegment
 
@@ -71,7 +72,7 @@ def onset_detect(input_file):
                                          hop_length=hop_length,
                                          n_fft=n_fft)
 
-    #p.play()
+    p.play()
     phrase_array =[]
 
     i, t, k = 0, 0, 0
@@ -87,7 +88,10 @@ def onset_detect(input_file):
 
 
     chorus1 = [False, 3, True, 2, c_rhyme1]
+    chorus1 = [False, 3, False, 2, c_rhyme2]
     chorus2 = [False, 2, False, 3, c_rhyme2]
+
+
     
 
 
@@ -95,12 +99,12 @@ def onset_detect(input_file):
     query_rhyme(rhymegen.generate_rhymes, chorus1, phrase_array)
     query_rhyme(rhymegen.generate_rhymes, chorus2, phrase_array)
 
+
+
+    #phrase_array = ["The quick brown fox", "jumps over the", "lazy dog", "Niggas in Paris", "ball so hard motherfuckers want to find me", "i j k l m ", "Whos that hoe"]
+    
     for arrs in phrase_array:
         print (arrs)
-
-    arras = ["The quick brown fox", "jumps over the", "lazy dog", "Niggas in Paris", "ball so hard motherfuckers want to find me", "i j k l m ", "Whos that hoe"]
-    
-
 
     for k in range(1, len(onset_times)):
         delta.append(onset_times[k] - onset_times[k-1])
@@ -116,10 +120,11 @@ def onset_detect(input_file):
             print('beat', n)
             #es.speed=float(abs(100/int(delta[i]))+120)
             if t<len(phrase_array):
-                es.args['speed'][1]=int(abs(1/delta[n])+150)
-                es.save(phrase_array[t],'./wav/'+ str(onset_times[n]))
-                #os.system("espeak " + "'" + arras[t] + "' " + "-s" + str(int(abs(1/delta[n])+140)))
-                n+=5 
+                es.args['speed'][1]=int(abs(1/delta[n])*7+190)
+                es.save(phrase_array[t],'./wav/'+(str(onset_times[n])))
+                es.say(phrase_array[t])
+                n+=(int(textstat.syllable_count(phrase_array[t])))
+                #os.system("espeak " + "'" + arras[t] + "' " + "-s" + str(int(abs(1/delta[n])+140))) 
                 t+=1
             else:
                 n=3500000

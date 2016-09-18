@@ -5,8 +5,6 @@ var path = require('path');
 
 app.use(express.static(path.resolve("./src/")));
 
-
-
 require('./src/routes.js')(app, path);
 
 app.listen(port);
