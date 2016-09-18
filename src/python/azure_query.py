@@ -24,7 +24,7 @@ class Requests():
 				arg_max = i
 				break
 		k = str(resp_dict["candidates"][arg_max]['word'])
-		if k[0] >='0' and k[0] <= '9' or k in ['fuck', 'porn']:
+		if k[0] >='0' and k[0] <= '9' or k in ['fuck', 'porn', 'pussy']:
 			raise 'invalid'
 		return string + " " + resp_dict["candidates"][arg_max]['word']
 
