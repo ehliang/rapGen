@@ -30,6 +30,7 @@ class MarkovModel():
 		#self.add_to_lib('allLyrics.txt')
 		self.aq = aq.Requests()
 
+	# this function was used for testing before db came along
 	'''
 	def add_to_lib(self, fileName):
 		file = open(fileName, 'r')
@@ -101,12 +102,11 @@ class MarkovModel():
 				if (i > line_length and nltk.pos_tag(line.split(" "))[-1][1][0:2] in ['NN', 'VB']) or i > line_length + 3:
 					break
 				i += 1
-			print line
 		else:
-			return ''
+			self.line_gen2(end_word,line_length)
 		v = self.aq.validate(line)
 		if  v > -11:
-			return line + "\n"
+			return line
 		return ''
 
 	def line_gen(self, end_word):
@@ -118,27 +118,34 @@ class MarkovModel():
 			cur = self.markov_prev(cur, seq, reverse[i + 1])
 			line = cur + ' ' + line
 			if cur == False: return line
-		print line
-		return line + '\n'
+		return line
 
-	def test_markov(self):
+	def generate_rhymes(self, n, sameword = True):
 		rap = ''
-		n = 0
-		first_rhyme = 'now'
-		while n < 50:
-			while(True):
-				k = self.line_gen2(first_rhyme, 3)
-				if k != '': break
-			
+		rhymes = []
+		last_word = 'now'
+		k = None
+		while(True):
+			k = self.line_gen2(last_word, 3)
+			if (k == ''): continue
 			last_word = k.split()[-1]
-			list_of_rhymes = pronouncing.rhyme(last_word)
-			if (len(list_of_rhymes) == 0): continue
-			first_rhyme = random.choice(list_of_rhymes)
-			rap += k
-			rap += self.line_gen(first_rhyme)
-			n += 1
-		print rap
+			list_of_rhymes = pronouncing.rhymes(last_word)
+			if (len(list_of_rhymes) != 0): break
+		rhymes.append(k)
+		for i in range(n - 1):
+			if sameword == False:
+				last_word = random.choice(list_of_rhymes).replace("'", "")
+			print "happens"
+			rhymes.append(self.line_gen(last_word))
+		print n
+		return rhymes
 
 if __name__ == "__main__":
 	d = MarkovModel()
-	d.test_markov()
+	for i in range(2):
+		print 1, i
+		print d.generate_rhymes(2, True)
+		print 2, i
+		print d.generate_rhymes(3, False)
+		print 3, i
+		print d.generate_rhymes(2, False)
