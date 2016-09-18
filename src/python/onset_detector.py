@@ -150,8 +150,9 @@ def onset_detect(input_file):
     sound1 = AudioSegment.from_wav('./rap.wav')
 
 
+    file_lists = os.listdir("./wav")
 
-    for file in file_list:
+    for file in file_lists:
             the_wave = AudioSegment.from_wav('./wav/'+ file)
             sound_with_wave = sound1.overlay(the_wave, position=int(float(file)*1000))
             print (float(file)*1000)
